@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Adiaha's Homophones Study Guide & Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --sun: #FFD93D;
+    --ocean: #0FA3B1;
+    --deep: #1A3C5E;
+    --coral: #FF6B6B;
+    --lime: #6BCB77;
+    --sand: #FFF5DC;
+    --plum: #845EC2;
+    --sky: #C9E4FF;
+    --dark: #1e2a3a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--sand);
+    color: var(--dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* ─── HERO ─── */
+  .hero {
+    background: linear-gradient(135deg, var(--ocean) 0%, var(--deep) 100%);
+    padding: 40px 20px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content:'';
+    position:absolute; inset:0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-family: 'Fredoka', sans-serif;
+    color: var(--sun);
+    font-size: 2.6rem;
+    position: relative;
+    text-shadow: 2px 3px 6px rgba(0,0,0,.3);
+    letter-spacing: 1px;
+  }
+  .hero p { color: #cce8f0; font-size: 1.1rem; margin-top: 8px; position: relative; }
+  .hero .wave { position: absolute; bottom:-2px; left:0; width:100%; height:40px; }
+
+  /* ─── TABS ─── */
+  .tabs { display: flex; justify-content: center; gap: 12px; padding: 22px 16px 0; flex-wrap: wrap; }
+  .tab-btn {
+    font-family: 'Fredoka', sans-serif; font-size: 1rem; font-weight: 600;
+    padding: 10px 26px; border: none; border-radius: 50px; cursor: pointer;
+    background: #d4c4a8; color: var(--deep); transition: all .25s;
+    box-shadow: 0 3px 8px rgba(0,0,0,.12);
+  }
+  .tab-btn:hover { background: var(--ocean); color:#fff; }
+  .tab-btn.active { background: var(--ocean); color:#fff; box-shadow: 0 4px 14px rgba(15,163,177,.4); }
+
+  /* ─── SECTIONS ─── */
+  .section { display: none; padding: 24px 16px 40px; max-width: 780px; margin: 0 auto; }
+  .section.active { display: block; animation: fadeIn .35s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ─── STUDY ─── */
+  .study-intro {
+    background: linear-gradient(135deg, var(--sky), #e8f7ff);
+    border-radius: 16px; padding: 18px 20px; margin-bottom: 20px;
+    border-left: 5px solid var(--ocean); font-size: .95rem; line-height: 1.55;
+  }
+  .pair-card {
+    background: #fff; border-radius: 14px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.09);
+    margin-bottom: 12px; overflow: hidden; border: 1px solid #ece5d5;
+  }
+  .pair-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 11px 16px; background: linear-gradient(90deg, var(--ocean), #16b3c0); color:#fff;
+  }
+  .pair-header .sound-badge {
+    background: var(--sun); color: var(--deep);
+    font-family:'Fredoka',sans-serif; font-size:.82rem;
+    padding: 2px 9px; border-radius: 20px; font-weight:600;
+  }
+  .pair-header span { font-family:'Fredoka',sans-serif; font-size:1rem; }
+  .pair-body { padding: 10px 16px 12px; }
+  .word-row { display: flex; align-items: flex-start; gap: 12px; padding: 7px 0; border-bottom: 1px dashed #e2ddd4; }
+  .word-row:last-child { border-bottom: none; }
+  .word-tag {
+    min-width: 90px; font-family:'Fredoka',sans-serif; font-size:1.05rem; font-weight:700;
+    color: var(--deep); background: #f0ece3; padding: 3px 10px; border-radius: 8px; text-align:center;
+  }
+  .word-def { font-size:.92rem; color:#445; line-height:1.4; }
+
+  /* ─── QUIZ ─── */
+  .quiz-header { text-align:center; margin-bottom: 18px; }
+  .quiz-header h2 { font-family:'Fredoka',sans-serif; color: var(--deep); font-size:1.5rem; }
+  .quiz-header p { color:#666; font-size:.9rem; margin-top:4px; }
+  .progress-bar-wrap { background:#ddd6c4; border-radius:12px; height:14px; overflow:hidden; margin-bottom:6px; }
+  .progress-bar { height:100%; background: linear-gradient(90deg, var(--ocean), var(--lime)); border-radius:12px; transition: width .4s; width:0%; }
+  .progress-txt { font-size:.82rem; color:#777; text-align:right; margin-bottom:16px; }
+
+  .q-card {
+    background:#fff; border-radius:16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,.1);
+    padding: 22px 20px 20px; margin-bottom: 18px;
+    border: 2px solid transparent; transition: border-color .25s;
+  }
+  .q-card.correct { border-color: var(--lime); background:#f0fff4; }
+  .q-card.wrong   { border-color: var(--coral); background:#fff5f5; }
+
+  .q-num {
+    display:inline-block; background: var(--deep); color:#fff;
+    font-family:'Fredoka',sans-serif; font-size:.78rem;
+    padding: 2px 10px; border-radius: 14px; margin-bottom: 8px;
+  }
+  .q-type-badge {
+    display:inline-block; font-size:.72rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:.5px;
+    padding: 2px 8px; border-radius: 10px; margin-left:6px;
+  }
+  .q-type-badge.mc { background:#ffe0ec; color:#c2185b; }
+  .q-type-badge.mm { background:#e0f2fe; color:#0277bd; }
+  .q-question { font-size:1.05rem; font-weight:700; margin: 10px 0 14px; line-height:1.45; }
+
+  /* MC options */
+  .mc-options { display:flex; flex-direction:column; gap:8px; }
+  .mc-opt {
+    display:flex; align-items:center; gap:10px;
+    border: 2px solid #e2ddd4; border-radius:10px;
+    padding: 9px 14px; cursor:pointer; transition: all .2s; background:#fafaf7;
+  }
+  .mc-opt:hover          { border-color: var(--ocean); background:#eef8fa; }
+  .mc-opt.selected       { border-color: var(--ocean); background:#d4eeef; }
+  .mc-opt.correct-sel    { border-color: var(--lime);  background:#e6f9ec; }
+  .mc-opt.wrong-sel      { border-color: var(--coral); background:#ffe8e8; }
+  .mc-opt .opt-label {
+    width:26px; height:26px; border-radius:50%; background: var(--deep); color:#fff;
+    font-family:'Fredoka',sans-serif; font-size:.85rem;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .mc-opt .opt-text { font-size:.93rem; }
+
+  /* Match & Match */
+  .mm-container { display:flex; gap:16px; flex-wrap:wrap; }
+  .mm-col { flex:1; min-width:140px; }
+  .mm-col h4 { font-family:'Fredoka',sans-serif; font-size:.85rem; color:#888; text-transform:uppercase; margin-bottom:8px; letter-spacing:.5px; }
+  .mm-item {
+    background:#f7f4ee; border:2px solid #e2ddd4; border-radius:10px;
+    padding:9px 12px; margin-bottom:7px; cursor:pointer;
+    font-size:.92rem; font-weight:600; transition: all .2s; user-select:none;
+  }
+  .mm-item:hover         { border-color: var(--ocean); }
+  .mm-item.selected     { border-color: var(--plum);  background:#f0e6fa; }
+  .mm-item.matched      { border-color: var(--lime);  background:#e4f9ec; cursor:default; }
+  .mm-item.wrong-match  { border-color: var(--coral); background:#ffe8e8; }
+  .mm-feedback { font-size:.84rem; margin-top:10px; font-weight:700; min-height:18px; }
+  .mm-feedback.ok  { color: var(--lime); }
+  .mm-feedback.bad { color: var(--coral); }
+
+  /* Feedback row */
+  .q-feedback { font-size:.88rem; margin-top:12px; padding:8px 12px; border-radius:8px; display:none; }
+  .q-feedback.show { display:block; }
+  .q-feedback.ok  { background:#edfaef; color:#1b7a3a; border:1px solid #b6e6c4; }
+  .q-feedback.bad { background:#fff0f0; color:#c0392b; border:1px solid #f5c6c6; }
+
+  /* Buttons */
+  .quiz-actions { text-align:center; margin-top:24px; }
+  .btn-submit {
+    font-family:'Fredoka',sans-serif; font-size:1.15rem;
+    background: linear-gradient(135deg, var(--ocean), #14c4d3);
+    color:#fff; border:none; padding:13px 42px; border-radius:50px; cursor:pointer;
+    box-shadow: 0 4px 14px rgba(15,163,177,.35); transition: transform .2s, box-shadow .2s;
+  }
+  .btn-submit:hover { transform:scale(1.04); box-shadow: 0 6px 18px rgba(15,163,177,.45); }
+  .btn-retry {
+    font-family:'Fredoka',sans-serif; font-size:1rem;
+    background: var(--sun); color: var(--deep); border:none;
+    padding:10px 32px; border-radius:50px; cursor:pointer; margin-left:12px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.12); transition: transform .2s;
+  }
+  .btn-retry:hover { transform:scale(1.03); }
+
+  /* Results */
+  .results-banner {
+    text-align:center; padding:28px 20px;
+    background: linear-gradient(135deg, var(--deep), #254b72);
+    border-radius:18px; color:#fff; margin-top:24px; display:none;
+  }
+  .results-banner.show { display:block; animation: fadeIn .4s; }
+  .results-banner h2   { font-family:'Fredoka',sans-serif; font-size:2rem; margin-bottom:6px; }
+  .results-banner .score { font-size:3.2rem; font-family:'Fredoka',sans-serif; color:var(--sun); }
+  .results-banner p     { color:#b8d4e8; margin-top:6px; }
+
+  .footer { text-align:center; padding:20px; color:#999; font-size:.82rem; }
+  ::-webkit-scrollbar      { width:6px; }
+  ::-webkit-scrollbar-track { background:#f0ebe3; }
+  ::-webkit-scrollbar-thumb { background:#c5bda8; border-radius:3px; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>🌊 Homophones Study Guide 🌴</h1>
+  <p>Adiaha's Super Study Sheet — Test Day Ready!</p>
+  <svg class="wave" viewBox="0 0 1440 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill="#FFF5DC" d="M0,20 C360,40 720,0 1080,25 C1260,35 1380,15 1440,20 L1440,40 L0,40 Z"/>
+  </svg>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" data-tab="study">📖 Study</button>
+  <button class="tab-btn"        data-tab="quiz" >✏️ Quiz</button>
+</div>
+
+<!-- ═══ STUDY ═══ -->
+<div id="study" class="section active">
+  <div class="study-intro">
+    <strong>📝 What are Homophones?</strong> They are words that <em>sound the same</em> when you say them out loud,
+    but they are <em>spelled differently</em> and have <em>different meanings</em>.
+    For example, "air" and "heir" both sound like <em>/ɛr/</em> — but one is what you breathe,
+    and the other is someone who inherits!
+  </div>
+  <div id="study-cards"></div>
+</div>
+
+<!-- ═══ QUIZ ═══ -->
+<div id="quiz" class="section">
+  <div class="quiz-header">
+    <h2>✏️ Comprehensive Quiz</h2>
+    <p>Answer every question — mix of
+       <span style="color:#c2185b;font-weight:700;">Multiple Choice</span> &amp;
+       <span style="color:#0277bd;font-weight:700;">Match the Meaning</span></p>
+  </div>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  <div class="progress-txt" id="progressTxt">0 / 0 answered</div>
+  <div id="quiz-questions"></div>
+  <div class="quiz-actions">
+    <button class="btn-submit" id="submitBtn">Submit Quiz</button>
+    <button class="btn-retry"  id="retryBtn" style="display:none">🔄 Retry</button>
+  </div>
+  <div class="results-banner" id="resultsBanner">
+    <h2 id="resultsTitle">🎉 Quiz Complete!</h2>
+    <div class="score" id="resultsScore">0 / 0</div>
+    <p id="resultsMsg"></p>
+  </div>
+</div>
+
+<div class="footer">Made with 💛 for Adiaha &mdash; Good luck on your test!</div>
+
+<!-- ═══════════════════════════════════════════════════════ SCRIPT ═══ -->
+<script>
+/* ─── DATA ─────────────────────────────────────────────────────────── */
+const PAIRS = [
+  { id: 1,  words:["air","heir"],            defs:["The gas we breathe","A person who inherits property after someone's death"] },
+  { id: 2,  words:["beat","beet"],           defs:["To succeed over someone; to strike","A root vegetable"] },
+  { id: 3,  words:["blew","blue"],           defs:["Past tense of blow","A colour"] },
+  { id: 4,  words:["cell","sell"],           defs:["A holding area of a prisoner","To exchange for money"] },
+  { id: 5,  words:["feat","feet"],           defs:["A task to be undertaken","Plural of foot"] },
+  { id: 6,  words:["flour","flower"],        defs:["Grain / powder to make bread","A blossom or bloom from a plant"] },
+  { id: 7,  words:["boy","buoy"],            defs:["A young male; a male child","A floating device in the sea used to mark a spot"] },
+  { id: 8,  words:["buy","bye"],             defs:["To purchase","A phrase when leaving someone"] },
+  { id: 9,  words:["by","foul"],             defs:["Next to","Bad smelling / something suspicious"] },
+  { id:10,  words:["fowl","foul2"],          defs:["A bird / feathered animal","Bad smelling / suspicious"] },
+  { id:11,  words:["great","grate"],         defs:["Amazing / marvelous","To reduce something to shreds"] },
+  { id:12,  words:["groan","grown"],         defs:["A noise of displeasure or pain","Past participle of grow"] },
+  { id:13,  words:["hair","hare"],           defs:["A protein grown out of your scalp in strands","A male rabbit"] },
+  { id:14,  words:["fair","fare"],           defs:["To be light-skinned; to be unbiased","A type of food / cost of travel"] },
+  { id:15,  words:["fear","fare2"],          defs:["Something you are afraid of","The cost of travel"] },
+  { id:16,  words:["find","fined"],          defs:["To locate something","To be given a penalty for breaking a law"] },
+  { id:17,  words:["flea","flee"],           defs:["A small insect found on an animal","To run away from"] },
+  { id:18,  words:["heal","heel"],           defs:["To get better","The back of the sole of your foot"] },
+  { id:19,  words:["higher","hire"],         defs:["Greater in altitude, position or rank","To employ someone"] },
+  { id:20,  words:["him","hymn"],            defs:["Personal object pronoun","A song (often religious)"] },
+  { id:21,  words:["hole","whole"],          defs:["An open space in something","The entire amount of something"] },
+  { id:22,  words:["heard","herd"],          defs:["Past tense or past participle of hear","The collective noun for cows and other animals"] },
+  { id:23,  words:["hour","our"],            defs:["60 minutes","Personal pronoun meaning yours and mine"] },
+  { id:24,  words:["knew","new"],            defs:["Past tense of know","Something never before used"] },
+  { id:25,  words:["knight","night"],        defs:["A gallant / brave fighter for kings and queens in medieval times","When it is dark, before it rises again"] },
+  { id:26,  words:["knows","nose"],          defs:["To have knowledge of something","The organ used to breathe on your face"] },
+  { id:27,  words:["lead","led"],            defs:["A type of mineral","Past tense of lead"] },
+  { id:28,  words:["lone","loan"],           defs:["Solo; by one self","A thing that is borrowed"] },
+  { id:29,  words:["lessen","lesson"],       defs:["To diminish over time","A taught concept"] },
+  { id:30,  words:["mail","male"],           defs:["Communication or letters sent through the post","Boy / man"] },
+  { id:31,  words:["made","maid"],           defs:["Past tense or past participle of make","A female servant (butler is the male version)"] },
+  { id:32,  words:["missed","mist"],         defs:["Past tense or past participle of miss","A light fog"] },
+  { id:33,  words:["none","nun"],            defs:["Not any","A female member of a Catholic religious group"] },
+  { id:34,  words:["oar","ore"],             defs:["Used to move a small boat by hand","A solid material from metal"] },
+  { id:35,  words:["pail","pale"],           defs:["A small bucket","Fair; light in colour"] },
+  { id:36,  words:["pause","paws"],          defs:["To stop","The feet of dogs or cats"] },
+  { id:37,  words:["peace","piece"],         defs:["Serenity; tranquility; silence","A fragment"] },
+  { id:38,  words:["soar","sore"],           defs:["To go up slowly","Painful"] },
+  { id:39,  words:["stationary","stationery"], defs:["Not moving","Pencils, papers, staplers"] },
+  { id:40,  words:["raise","rays"],          defs:["To lift up","Lines extending outward"] },
+];
+
+/* ─── HELPERS ──────────────────────────────────────────────────────── */
+function shuffle(arr){
+  let a = [...arr];
+  for(let i = a.length - 1; i > 0; i--){
+    let j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+/* ─── STUDY ────────────────────────────────────────────────────────── */
+function renderStudy(){
+  const c = document.getElementById('study-cards');
+  let h = '';
+  PAIRS.forEach(p => {
+    let cleanWords = p.words.map(w => w.replace(/\d+$/, ''));
+    h += `<div class="pair-card">
+      <div class="pair-header">
+        <span class="sound-badge">#${p.id}</span>
+        <span>${cleanWords.join(' &nbsp;/&nbsp; ')}</span>
+      </div>
+      <div class="pair-body">`;
+    cleanWords.forEach((w, i) => {
+      h += `<div class="word-row">
+              <div class="word-tag">${escapeHtml(w)}</div>
+              <div class="word-def">${escapeHtml(p.defs[i])}</div>
+            </div>`;
+    });
+    h += '</div></div>';
+  });
+  c.innerHTML = h;
+}
+
+/* ─── QUIZ STATE ───────────────────────────────────────────────────── */
+let questions      = [];       // built question objects
+let answered       = {};       // qid -> true
+let correct        = {};       // qid -> true | false
+let quizSubmitted  = false;
+
+// MM state: one entry per MM question id
+// { selected: null | { side:'word'|'def', idx:Number, el:HTMLEl } }
+let mmState = {};
+
+/* ─── BUILD QUESTIONS ──────────────────────────────────────────────── */
+function buildQuestions(){
+  questions = [];
+  let qId = 0;
+
+  // Flatten every word into a flat list
+  let allItems = [];
+  PAIRS.forEach(p => {
+    p.words.forEach((w, i) => {
+      allItems.push({ word: w.replace(/\d+$/,''), def: p.defs[i], pairId: p.id });
+    });
+  });
+
+  // Shuffle the flat list
+  let shuffled = shuffle(allItems);
+
+  // Track which pairs have already been used for an MM question
+  let mmPairsUsed = new Set();
+
+  shuffled.forEach((item, idx) => {
+    qId++;
+    // Every 4th question is MM (if that pair hasn't been used yet)
+    if(idx % 4 === 3 && !mmPairsUsed.has(item.pairId)){
+      let pair = PAIRS.find(p => p.id === item.pairId);
+      mmPairsUsed.add(pair.id);
+      questions.push({
+        id:    qId,
+        type:  'mm',
+        words: pair.words.map(w => w.replace(/\d+$/, '')),
+        defs:  pair.defs
+      });
+    } else {
+      // MC: given word → pick def
+      // Build 3 wrong defs (different from correct)
+      let wrongs = shuffle(allItems.filter(x => x.def !== item.def)).slice(0, 3).map(x => x.def);
+      let options = shuffle([item.def, ...wrongs]);
+      questions.push({
+        id:         qId,
+        type:       'mc',
+        word:       item.word,
+        correctDef: item.def,
+        options:    options
+      });
+    }
+  });
+
+  // Append one MM question for every pair that was NOT yet used
+  PAIRS.forEach(p => {
+    if(!mmPairsUsed.has(p.id)){
+      qId++;
+      questions.push({
+        id:    qId,
+        type:  'mm',
+        words: p.words.map(w => w.replace(/\d+$/, '')),
+        defs:  p.defs
+      });
+    }
+  });
+}
+
+/* ─── RENDER QUIZ ──────────────────────────────────────────────────── */
+function renderQuiz(){
+  buildQuestions();
+  answered       = {};
+  correct        = {};
+  quizSubmitted  = false;
+  mmState        = {};
+
+  document.getElementById('resultsBanner').classList.remove('show');
+  document.getElementById('retryBtn').style.display  = 'none';
+  document.getElementById('submitBtn').style.display = 'inline-block';
+
+  let html = '';
+  questions.forEach((q, i) => {
+    html += (q.type === 'mc') ? renderMC(q, i + 1) : renderMM(q, i + 1);
+  });
+  document.getElementById('quiz-questions').innerHTML = html;
+  updateProgress();
+}
+
+/* ─── RENDER MC ────────────────────────────────────────────────────── */
+function renderMC(q, num){
+  let labels = ['A','B','C','D'];
+  let opts = q.options.map((o, i) =>
+    `<div class="mc-opt" data-qid="${q.id}" data-idx="${i}">
+       <div class="opt-label">${labels[i]}</div>
+       <div class="opt-text">${escapeHtml(o)}</div>
+     </div>`
+  ).join('');
+
+  return `<div class="q-card" id="qcard-${q.id}">
+    <span class="q-num">Q${num}</span>
+    <span class="q-type-badge mc">Multiple Choice</span>
+    <div class="q-question">What does <strong>&quot;${escapeHtml(q.word)}&quot;</strong> mean?</div>
+    <div class="mc-options">${opts}</div>
+    <div class="q-feedback" id="fb-${q.id}"></div>
+  </div>`;
+}
+
+/* ─── RENDER MM ────────────────────────────────────────────────────── */
+function renderMM(q, num){
+  // Shuffle words and defs independently, keeping track of original index
+  let sWords = shuffle(q.words.map((w, i) => ({ label: w, idx: i })));
+  let sDefs  = shuffle(q.defs.map((d, i)  => ({ label: d, idx: i })));
+
+  let wHtml = sWords.map(item =>
+    `<div class="mm-item" data-mmq="${q.id}" data-side="word" data-idx="${item.idx}">${escapeHtml(item.label)}</div>`
+  ).join('');
+  let dHtml = sDefs.map(item =>
+    `<div class="mm-item" data-mmq="${q.id}" data-side="def"  data-idx="${item.idx}">${escapeHtml(item.label)}</div>`
+  ).join('');
+
+  // Initialise MM state for this question
+  mmState[q.id] = { selected: null };
+
+  return `<div class="q-card" id="qcard-${q.id}">
+    <span class="q-num">Q${num}</span>
+    <span class="q-type-badge mm">Match the Meaning</span>
+    <div class="q-question">Click a <strong>Word</strong>, then click its <strong>Meaning</strong> to match them!</div>
+    <div class="mm-container">
+      <div class="mm-col"><h4>📌 Words</h4>${wHtml}</div>
+      <div class="mm-col"><h4>📖 Meanings</h4>${dHtml}</div>
+    </div>
+    <div class="mm-feedback" id="mmfb-${q.id}"></div>
+  </div>`;
+}
+
+/* ─── EVENT DELEGATION ─────────────────────────────────────────────── */
+document.addEventListener('click', function(e){
+  // ── MC click ──
+  let mcEl = e.target.closest('.mc-opt');
+  if(mcEl){
+    if(quizSubmitted) return;
+    let qid = Number(mcEl.dataset.qid);
+    let clickedIdx = Number(mcEl.dataset.idx);
+    let q = questions.find(x => x.id === qid);
+    if(!q) return;
+
+    let correctIdx = q.options.indexOf(q.correctDef);
+
+    // Deselect all siblings
+    mcEl.closest('.mc-options').querySelectorAll('.mc-opt').forEach(o => {
+      o.classList.remove('selected','correct-sel','wrong-sel');
+    });
+
+    mcEl.classList.add('selected');
+    if(clickedIdx === correctIdx){
+      mcEl.classList.add('correct-sel');
+      correct[qid] = true;
+    } else {
+      mcEl.classList.add('wrong-sel');
+      correct[qid] = false;
+    }
+    answered[qid] = true;
+    updateProgress();
+    return;
+  }
+
+  // ── MM click ──
+  let mmEl = e.target.closest('.mm-item');
+  if(mmEl){
+    if(quizSubmitted) return;
+    if(mmEl.classList.contains('matched')) return;   // already locked in
+
+    let qid  = Number(mmEl.dataset.mmq);
+    let side = mmEl.dataset.side;                    // 'word' or 'def'
+    let idx  = Number(mmEl.dataset.idx);             // original index in the pair
+
+    let state = mmState[qid];
+    if(!state) return;                               // safety
+
+    if(state.selected === null){
+      // ── First click: highlight ──
+      mmEl.classList.add('selected');
+      state.selected = { side, idx, el: mmEl };
+    } else {
+      let prev = state.selected;
+
+      if(prev.side === side){
+        // Clicked same column again → move highlight
+        prev.el.classList.remove('selected');
+        mmEl.classList.add('selected');
+        state.selected = { side, idx, el: mmEl };
+      } else {
+        // Clicked opposite column → attempt match
+        let fb = document.getElementById('mmfb-' + qid);
+
+        if(prev.idx === idx){
+          // ✅ Correct match — lock both in
+          prev.el.classList.remove('selected');
+          prev.el.classList.add('matched');
+          mmEl.classList.remove('selected');
+          mmEl.classList.add('matched');
+
+          fb.textContent = '✅ Correct match!';
+          fb.className   = 'mm-feedback ok';
+          state.selected = null;
+
+          // Check if ALL items in this card are matched
+          let card  = document.getElementById('qcard-' + qid);
+          let items = card.querySelectorAll('.mm-item');
+          if([...items].every(el => el.classList.contains('matched'))){
+            answered[qid] = true;
+            correct[qid]  = true;
+            card.classList.add('correct');
+            fb.textContent = '🎉 All matched perfectly!';
+          }
+        } else {
+          // ❌ Wrong match — flash red, then reset
+          prev.el.classList.remove('selected');
+          prev.el.classList.add('wrong-match');
+          mmEl.classList.add('wrong-match');
+
+          fb.textContent = '❌ Not a match — try again!';
+          fb.className   = 'mm-feedback bad';
+          state.selected = null;
+
+          setTimeout(() => {
+            prev.el.classList.remove('wrong-match');
+            mmEl.classList.remove('wrong-match');
+          }, 900);
+        }
+        updateProgress();
+      }
+    }
+    return;
+  }
+
+  // ── Tab buttons ──
+  let tabBtn = e.target.closest('.tab-btn');
+  if(tabBtn){
+    let tab = tabBtn.dataset.tab;
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+    tabBtn.classList.add('active');
+    if(tab === 'quiz' && document.getElementById('quiz-questions').innerHTML === '') renderQuiz();
+    return;
+  }
+
+  // ── Submit ──
+  if(e.target.id === 'submitBtn') submitQuiz();
+
+  // ── Retry ──
+  if(e.target.id === 'retryBtn'){
+    renderQuiz();
+    window.scrollTo({ top: document.getElementById('quiz').offsetTop, behavior:'smooth' });
+  }
+});
+
+/* ─── PROGRESS ─────────────────────────────────────────────────────── */
+function updateProgress(){
+  let total = questions.length;
+  let done  = Object.keys(answered).length;
+  document.getElementById('progressBar').style.width = (done / total * 100) + '%';
+  document.getElementById('progressTxt').textContent  = done + ' / ' + total + ' answered';
+}
+
+/* ─── SUBMIT ───────────────────────────────────────────────────────── */
+function submitQuiz(){
+  quizSubmitted = true;
+  let total = questions.length;
+  let score = 0;
+
+  questions.forEach(q => {
+    let card = document.getElementById('qcard-' + q.id);
+    if(correct[q.id]){
+      score++;
+      card.classList.add('correct');
+    } else {
+      card.classList.add('wrong');
+      // Show correct answer hint for MC
+      if(q.type === 'mc'){
+        let fb = document.getElementById('fb-' + q.id);
+        fb.innerHTML = '<strong>Correct answer:</strong> ' + escapeHtml(q.correctDef);
+        fb.classList.add('show','ok');
+        // Also highlight the correct option green
+        let opts = card.querySelectorAll('.mc-opt');
+        let correctIdx = q.options.indexOf(q.correctDef);
+        if(opts[correctIdx]) opts[correctIdx].classList.add('correct-sel');
+      }
+      // Show hint for MM — highlight unmatched items
+      if(q.type === 'mm'){
+        let fb = document.getElementById('mmfb-' + q.id);
+        fb.textContent = '❌ Not all matched — review the study cards!';
+        fb.className   = 'mm-feedback bad';
+      }
+    }
+  });
+
+  let pct = Math.round(score / total * 100);
+  document.getElementById('resultsScore').textContent = score + ' / ' + total;
+  document.getElementById('resultsTitle').textContent =
+    pct === 100 ? '🏆 Perfect Score!' :
+    pct >= 80   ? '🌟 Great Job!'     :
+    pct >= 60   ? '👏 Good Effort!'   : '📚 Keep Studying!';
+  document.getElementById('resultsMsg').textContent =
+    'You got ' + pct + '% correct. ' +
+    (pct === 100 ? 'You are a homophone master!' : 'Keep practising and you will nail the test!');
+
+  document.getElementById('resultsBanner').classList.add('show');
+  document.getElementById('submitBtn').style.display = 'none';
+  document.getElementById('retryBtn').style.display  = 'inline-block';
+  document.getElementById('resultsBanner').scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
+/* ─── INIT ─────────────────────────────────────────────────────────── */
+renderStudy();
+</script>
+</body>
+</html>
